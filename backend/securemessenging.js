@@ -8,8 +8,9 @@ class SecureMessaging {
         this.MAX_CACHE = 2000;
         this.messageReplayCache = new Set();
     }
+    //cryptobox allows for ephemeral keygen
 
-    static async init() {
+    static async init() { //initialise everything
         await sodium.ready;
         return new SecureMessaging();
     }
@@ -25,7 +26,7 @@ class SecureMessaging {
         }
     }
 
-    async generateKeyPair() {
+    async generateKeyPair() { //what it says on the tin
         return sodium.crypto_box_keypair();
     }
 
@@ -126,7 +127,7 @@ class SecureMessaging {
         }
     }
 
-    async ratchetEncrypt(session, plaintext, metadata = {}) {
+    async ratchetEncrypt(session, plaintext, metadata = {}) { //wahoo double ratchet
         try {
             const { chainKey, messageKey } = await this.kdfCK(session.CKs);
             session.CKs = chainKey;
